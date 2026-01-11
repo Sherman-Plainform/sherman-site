@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sherman</title>
+  <meta name="description" content="Sherman — clean, minimalist site. Shorts, merch, and subscribe." />
+
+  <style>
+    :root{
+      --bg:#0b0c0f;
+      --card:#10131a;
+      --text:#e8ecf3;
+      --muted:#a9b2c3;
+      --line:rgba(255,255,255,.10);
+      --accent:#7aa2ff;
+      --accent2:#7dffb2;
+      --max:1040px;
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 30% 0%, rgba(122,162,255,.14), transparent 50%),
+                  radial-gradient(900px 500px at 80% 10%, rgba(125,255,178,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,15,.70);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar .wrap{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding-top:14px; padding-bottom:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; min-width: 160px;
+    }
+    .mark{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, rgba(122,162,255,.95), rgba(125,255,178,.85));
+      box-shadow: var(--shadow);
+    }
+    .brand strong{letter-spacing:.2px}
+    nav{
+      display:flex; gap:16px; align-items:center; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      color:var(--muted);
+      font-size:14px;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid transparent;
+    }
+    nav a:hover{
+      color:var(--text);
+      border-color:var(--line);
+      background: rgba(255,255,255,.04);
+    }
+
+    .hero{
+      padding:64px 0 28px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:28px;
+      align-items:start;
+    }
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr; padding-top:36px}
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      font-size:13px; color:var(--muted);
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(255,255,255,.03);
+    }
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(122,162,255,.12);
+    }
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(34px, 4vw, 52px);
+      letter-spacing:-.8px;
+      line-height:1.05;
+    }
+    .sub{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:16px;
+      max-width: 60ch;
+    }
+    .actions{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      font-weight:600;
+      box-shadow: none;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18)}
+    .btn.primary{
+      border-color: transparent;
+      background: linear-gradient(135deg, rgba(122,162,255,.95), rgba(125,255,178,.85));
+      color:#071014;
+    }
+    .btn.primary:hover{filter:saturate(1.05) brightness(1.02)}
+    .btn .icon{opacity:.9}
+
+    .card{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: var(--shadow);
+    }
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      min-height: 260px;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute; inset:-120px -80px auto auto;
+      width:320px; height:320px;
+      border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, rgba(122,162,255,.45), transparent 60%);
+      transform: rotate(12deg);
+      pointer-events:none;
+    }
+    .hero-card:after{
+      content:"";
+      position:absolute; inset:auto auto -120px -120px;
+      width:320px; height:320px;
+      border-radius:999px;
+      background: radial-gradient(circle at 40% 40%, rgba(125,255,178,.32), transparent 62%);
+      transform: rotate(-10deg);
+      pointer-events:none;
+    }
+    .stat{
+      display:grid; gap:6px;
+      margin-top:10px;
+      position:relative;
+      z-index:1;
+    }
+    .stat strong{font-size:14px}
+    .stat span{color:var(--muted); font-size:13px}
+    .divider{
+      height:1px; background: var(--line);
+      margin:14px 0;
+    }
+
+    section{padding:22px 0}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+    h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:-.2px;
+    }
+    p{margin:0 0 10px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:13px}
+
+    .shorts-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 900px){ .shorts-grid{grid-template-columns:1fr} }
+    .embed{
+      aspect-ratio: 9 / 16;
+      border-radius: 14px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+    }
+    iframe{width:100%; height:100%; border:0}
+
+    .merch-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 900px){ .merch-grid{grid-template-columns:1fr} }
+    .product{
+      padding:14px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+    }
+    .product strong{display:block; margin-bottom:6px}
+    .product .price{color:var(--muted); font-size:13px}
+    .product .pill{
+      display:inline-block;
+      margin-top:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      font-size:12px;
+      color:var(--muted);
+      background: rgba(255,255,255,.03);
+    }
+
+    .cta{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:18px;
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background:
+        radial-gradient(900px 300px at 20% 0%, rgba(122,162,255,.18), transparent 60%),
+        radial-gradient(700px 300px at 90% 10%, rgba(125,255,178,.12), transparent 55%),
+        rgba(255,255,255,.03);
+    }
+    @media (max-width: 900px){ .cta{flex-direction:column; align-items:flex-start} }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+    @media (max-width: 900px){ .contact-grid{grid-template-columns:1fr} }
+    .field{
+      display:grid; gap:8px; margin-top:10px;
+    }
+    label{font-size:13px; color:var(--muted)}
+    input, textarea{
+      width:100%;
+      background: rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius: 12px;
+      padding:12px;
+      color:var(--text);
+      outline:none;
+      font: inherit;
+    }
+    textarea{min-height: 120px; resize: vertical}
+    input:focus, textarea:focus{border-color: rgba(122,162,255,.55)}
+    footer{
+      padding:26px 0 40px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-row{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      border-top:1px solid var(--line);
+      padding-top:16px;
+    }
+    .links{display:flex; gap:14px; flex-wrap:wrap}
+    .links a{color:var(--muted)}
+    .links a:hover{color:var(--text)}
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="Sherman home">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <strong>Sherman</strong><div class="tiny muted">minimal • unexpected</div>
+        </div>
+      </a>
+
+      <nav aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#shorts">Shorts</a>
+        <a href="#merch">Merch</a>
+        <a href="#subscribe">Subscribe</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero" aria-label="Hero">
+      <div>
+        <div class="kicker"><span class="dot" aria-hidden="true"></span> clean site. chaotic character.</div>
+        <h1>Sherman — built for Shorts.</h1>
+        <p class="sub">
+          A faceless 3D meme character with an exaggerated build — presented with zero noise.
+          Scroll for shorts, merch, and the one button that matters.
+        </p>
+
+        <div class="actions">
+          <a class="btn primary" href="https://youtube.com/@plainform-co?si=uttrZZtiRytTgjH6" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">▶</span> Subscribe on YouTube
+          </a>
+          <a class="btn" href="#shorts">
+            <span class="icon" aria-hidden="true">▦</span> Watch Shorts
+          </a>
+          <a class="btn" href="https://sherman-shop.fourthwall.com/products/no-001-tee" target="_blank" rel="noopener">
+            <span class="icon" aria-hidden="true">⎯</span> Shop No. 001 Tee
+          </a>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="tiny muted">
+          Tip: this is a single file. Edit text, paste your Shorts video IDs, and you’re done.
+        </p>
+      </div>
+
+      <aside class="card hero-card" aria-label="Quick info">
+        <div class="stat">
+          <strong>Channel</strong>
+          <span class="muted">Plainform Co (@plainform-co)</span>
+        </div>
+        <div class="divider"></div>
+        <div class="stat">
+          <strong>Merch</strong>
+          <span class="muted">Fourthwall drop: No. 001 Tee</span>
+        </div>
+        <div class="divider"></div>
+        <div class="stat">
+          <strong>Next step</strong>
+          <span class="muted">Replace the Shorts embeds with your real Shorts IDs.</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" aria-label="About Sherman">
+      <div class="grid">
+        <div class="card">
+          <h2>About Sherman</h2>
+          <p class="muted">
+            Sherman is a recurring faceless 3D character — minimalist humanoid, exaggerated muscular form,
+            used for comedic/absurd Shorts. The contrast is the point: serious presentation, unserious content.
+          </p>
+          <p class="muted tiny">
+            Want it even more “corporate”? Delete the gradients in the CSS and keep a flat background.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>Brand rules</h2>
+          <p class="muted">Keep it simple so the character hits harder.</p>
+          <ul class="muted tiny" style="margin:10px 0 0 18px;">
+            <li>No loud colors (one accent max).</li>
+            <li>Short titles, big whitespace.</li>
+            <li>Everything points to Shorts + Subscribe.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="shorts" aria-label="Shorts feed">
+      <div class="card">
+        <h2>Shorts</h2>
+        <p class="muted">
+          YouTube doesn’t provide a perfect “live Shorts feed embed” for a channel without using the API,
+          so this section uses <strong>direct Shorts embeds</strong>. Replace the video IDs below.
+        </p>
+        <p class="tiny muted">
+          Replace <code>VIDEO_ID_1</code>, <code>VIDEO_ID_2</code>, <code>VIDEO_ID_3</code> with your Shorts IDs.
+          Example: <span class="muted">https://youtube.com/shorts/</span><strong>AbCdEf12345</strong>
+        </p>
+
+        <div class="shorts-grid" aria-label="Shorts embeds">
+          <div class="embed">
+            <iframe title="Sherman Short 1"
+              src="https://www.youtube.com/embed/VIDEO_ID_1?rel=0&modestbranding=1"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="embed">
+            <iframe title="Sherman Short 2"
+              src="https://www.youtube.com/embed/VIDEO_ID_2?rel=0&modestbranding=1"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="embed">
+            <iframe title="Sherman Short 3"
+              src="https://www.youtube.com/embed/VIDEO_ID_3?rel=0&modestbranding=1"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:14px;">
+          <a class="btn" href="https://www.youtube.com/@plainform-co/shorts" target="_blank" rel="noopener">Open Shorts tab</a>
+          <a class="btn" href="https://youtube.com/@plainform-co?si=uttrZZtiRytTgjH6" target="_blank" rel="noopener">Open channel</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="merch" aria-label="Merch">
+      <div class="card">
+        <h2>Merch</h2>
+        <p class="muted">
+          One clean item. No clutter. Start here.
+        </p>
+
+        <div class="merch-grid" aria-label="Merch items">
+          <div class="product">
+            <strong>No. 001 Tee</strong>
+            <div class="price">Embroidered minimal mark</div>
+            <div class="pill">first drop</div>
+            <div class="actions" style="margin-top:12px;">
+              <a class="btn primary" href="https://sherman-shop.fourthwall.com/products/no-001-tee" target="_blank" rel="noopener">Shop</a>
+            </div>
+          </div>
+
+          <div class="product">
+            <strong>Sticker Pack</strong>
+            <div class="price">Coming soon</div>
+            <div class="pill">clean set</div>
+          </div>
+
+          <div class="product">
+            <strong>Limited Drop</strong>
+            <div class="price">Coming soon</div>
+            <div class="pill">short window</div>
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:14px;">
+          <a class="btn" href="https://sherman-shop.fourthwall.com/products/no-001-tee" target="_blank" rel="noopener">Shop No. 001 Tee</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="subscribe" aria-label="Subscribe call to action">
+      <div class="cta">
+        <div>
+          <h2 style="margin:0 0 6px;">Subscribe for the next Sherman.</h2>
+          <p class="muted" style="margin:0;">The site is quiet. The content isn’t.</p>
+        </div>
+        <div class="actions" style="margin:0;">
+          <a class="btn primary" href="https://youtube.com/@plainform-co?si=uttrZZtiRytTgjH6" target="_blank" rel="noopener">Subscribe</a>
+          <a class="btn" href="https://sherman-shop.fourthwall.com/products/no-001-tee" target="_blank" rel="noopener">Shop</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" aria-label="Contact">
+      <div class="contact-grid">
+        <div class="card">
+          <h2>Contact</h2>
+          <p class="muted">Fastest way: email.</p>
+
+          <p class="tiny muted" style="margin-top:10px;">
+            Email:
+            <button id="copyEmail" class="btn" type="button" style="padding:8px 10px; font-size:13px;">copy</button>
+            <span id="emailText" style="margin-left:10px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">plainform.sherman@gmail.com</span>
+          </p>
+
+          <div class="divider"></div>
+
+          <div class="links">
+            <a href="https://youtube.com/@plainform-co?si=uttrZZtiRytTgjH6" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://sherman-shop.fourthwall.com/products/no-001-tee" target="_blank" rel="noopener">Shop</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Message</h2>
+          <form id="contactForm">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" autocomplete="name" placeholder="Your name" />
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="What do you want to say?"></textarea>
+            </div>
+            <div class="actions" style="margin-top:12px;">
+              <button class="btn primary" type="submit">Send</button>
+              <button class="btn" type="reset">Reset</button>
+            </div>
+            <p class="tiny muted" style="margin-top:10px;">This form uses <code>mailto:</code> (no backend needed).</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-row">
+        <div>© <span id="year"></span> Sherman</div>
+        <div class="links">
+          <a href="#top">Back to top</a>
+          <a href="https://www.youtube.com/@plainform-co/shorts" target="_blank" rel="noopener">Shorts</a>
+          <a href="https://sherman-shop.fourthwall.com/products/no-001-tee" target="_blank" rel="noopener">Shop</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const copyBtn = document.getElementById("copyEmail");
+    const emailText = document.getElementById("emailText");
+    copyBtn.addEventListener("click", async () => {
+      const email = emailText.textContent.trim();
+      try {
+        await navigator.clipboard.writeText(email);
+        copyBtn.textContent = "copied";
+        setTimeout(() => (copyBtn.textContent = "copy"), 900);
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(emailText);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    });
+
+    document.getElementById("contactForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = emailText.textContent.trim();
+      const name = document.getElementById("name").value.trim();
+      const msg  = document.getElementById("message").value.trim();
+
+      const subject = encodeURIComponent(`Sherman — message from ${name || "someone"}`);
+      const body = encodeURIComponent(msg || "—");
+
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", (ev) => {
+        const id = a.getAttribute("href");
+        if (!id || id === "#") return;
+        const el = document.querySelector(id);
+        if (!el) return;
+        ev.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+  </script>
+</body>
+</html>
